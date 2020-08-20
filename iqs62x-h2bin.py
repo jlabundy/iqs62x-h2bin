@@ -74,7 +74,7 @@ field_map[('IQS620A', 'TEMP_UI_SETTINGS_2')]        = (0xC2, 0x00, MAP_BOTH)
 field_map[('IQS620A', 'TEMP_UI_SETTINGS_3')]        = (0xC3, 0x00, MAP_BOTH)
 field_map[('IQS620A', 'TEMP_UI_SETTINGS_4')]        = (0xC4, 0x00, MAP_BOTH)
 
-field_map[('IQS620A', 'SYSTEM_SETTINGS')]           = (0xD0, 0x1C, MAP_BOTH)
+field_map[('IQS620A', 'SYSTEM_SETTINGS')]           = (0xD0, 0x14, MAP_BOTH)
 field_map[('IQS620A', 'ACTIVE_CHS')]                = (0xD1, 0xFF, MAP_BOTH)
 field_map[('IQS620A', 'PMU_SETTINGS')]              = (0xD2, 0x00, MAP_BOTH)
 field_map[('IQS620A', 'REPORT_RATES_TIMINGS_0')]    = (0xD3, 0xFF, MAP_BOTH)
@@ -139,7 +139,7 @@ field_map[('IQS621', 'TEMP_UI_SETTINGS_1')]         = (0xC1, 0xFF, MAP_BOTH)
 field_map[('IQS621', 'TEMP_UI_SETTINGS_2')]         = (0xC2, 0xFF, MAP_BOTH)
 field_map[('IQS621', 'TEMP_UI_SETTINGS_3')]         = (0xC3, 0xFF, MAP_BOTH)
 
-field_map[('IQS621', 'SYSTEM_SETTINGS')]            = (0xD0, 0x1C, MAP_BOTH)
+field_map[('IQS621', 'SYSTEM_SETTINGS')]            = (0xD0, 0x14, MAP_BOTH)
 field_map[('IQS621', 'ACTIVE_CHS')]                 = (0xD1, 0xFF, MAP_BOTH)
 field_map[('IQS621', 'PMU_SETTINGS')]               = (0xD2, 0x00, MAP_BOTH)
 field_map[('IQS621', 'REPORT_RATES_TIMINGS_0')]     = (0xD3, 0xFF, MAP_BOTH)
@@ -201,7 +201,7 @@ field_map[('IQS622', 'HALL_UI_SETTINGS_0')]         = (0xB0, 0xFF, MAP_BOTH)
 field_map[('IQS622', 'HALL_UI_SETTINGS_1')]         = (0xB1, 0xFF, MAP_BOTH)
 field_map[('IQS622', 'HALL_UI_SETTINGS_2')]         = (0xB2, 0xFF, MAP_BOTH)
 
-field_map[('IQS622', 'SYSTEM_SETTINGS')]            = (0xD0, 0x1C, MAP_BOTH)
+field_map[('IQS622', 'SYSTEM_SETTINGS')]            = (0xD0, 0x14, MAP_BOTH)
 field_map[('IQS622', 'ACTIVE_CHS')]                 = (0xD1, 0xFF, MAP_BOTH)
 field_map[('IQS622', 'PMU_SETTINGS')]               = (0xD2, 0x00, MAP_BOTH)
 field_map[('IQS622', 'REPORT_RATES_TIMINGS_0')]     = (0xD3, 0xFF, MAP_BOTH)
@@ -246,7 +246,7 @@ field_map[('IQS624', 'HALL_SETTINGS_13')]           = (0x7D, 0xFF, MAP_BOTH)
 field_map[('IQS624', 'HALL_SETTINGS_14')]           = (0x7E, 0xFF, MAP_BOTH)
 field_map[('IQS624', 'HALL_SETTINGS_15')]           = (0x7F, 0xFF, MAP_BOTH)
 
-field_map[('IQS624', 'SYSTEM_SETTINGS')]            = (0xD0, 0x1C, MAP_BOTH)
+field_map[('IQS624', 'SYSTEM_SETTINGS')]            = (0xD0, 0x14, MAP_BOTH)
 field_map[('IQS624', 'ACTIVE_CHS')]                 = (0xD1, 0xFF, MAP_BOTH)
 field_map[('IQS624', 'PMU_SETTINGS')]               = (0xD2, 0x00, MAP_BOTH)
 field_map[('IQS624', 'REPORT_RATES_TIMINGS_0')]     = (0xD3, 0xFF, MAP_BOTH)
@@ -293,7 +293,7 @@ field_map[('IQS625', 'INTERVALUIDIVIDER')]          = (0x7D, 0xFF, MAP_BOTH)
 field_map[('IQS625', 'WHEELOFFSETL')]               = (0x7E, 0xFF, MAP_BOTH)
 field_map[('IQS625', 'WHEELOFFSETH')]               = (0x7F, 0xFF, MAP_BOTH)
 
-field_map[('IQS625', 'GENERALSYSTEMSETTINGS')]      = (0xD0, 0x1C, MAP_BOTH)
+field_map[('IQS625', 'GENERALSYSTEMSETTINGS')]      = (0xD0, 0x14, MAP_BOTH)
 field_map[('IQS625', 'ACTIVECHANNELSMASK')]         = (0xD1, 0xFF, MAP_BOTH)
 field_map[('IQS625', 'POWERMODESETTINGS')]          = (0xD2, 0x00, MAP_BOTH)
 field_map[('IQS625', 'NPREPORTRATE')]               = (0xD3, 0xFF, MAP_BOTH)
@@ -327,7 +327,7 @@ sar1_map = {
 }
 
 timestamp = datetime.datetime.now()
-record_info = '|iqs62x-h2bin|1.0.0|' + timestamp.strftime('%D|')
+record_info = '|iqs62x-h2bin|1.0.1|' + timestamp.strftime('%D|')
 
 record = [TYPE_INFO, 0, len(record_info)]
 for i in record_info:
@@ -422,7 +422,7 @@ if not len(record_list):
 fw_name = sys.argv[2] if len(sys.argv) > 2 else device.lower() + '.bin'
 fw_file = open(fw_name, 'wb')
 
-for i in record_list:
+for i in sorted(record_list, key=lambda record: record[1]):
     fw_file.write(bytearray(i))
 
 print('Wrote ' + str(len(record_list)) + ' record(s) to ' + fw_name)
